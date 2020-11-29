@@ -1,12 +1,13 @@
-<ul ngbNav #nav="ngbNav" class="nav-pills">
-  <li ngbNavItem>
-      <a ngbNavLink>First</a>
-      <ng-template ngbNavContent>First content</ng-template>
-  </li>
-  <li ngbNavItem>
-      <a ngbNavLink>Second</a>
-      <ng-template ngbNavContent>Second content</ng-template>
-  </li>
-</ul>
+<nav class="navbar navbar-expand navbar-dark bg-dark" *ngIf="loggedAccount">
+  <div class="navbar-nav">
+      <a class="nav-item nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
+      <a class="nav-item nav-link" routerLink="/users" routerLinkActive="active">Users</a>
+      <a class="nav-item nav-link" (click)="logout()">Logout</a>
+  </div>
+</nav>
 
-<router-outlet></router-outlet>
+<!-- main app container -->
+<div class="app-container" [ngClass]="{ 'bg-light': loggedAccount }">
+  <alert></alert>
+  <router-outlet></router-outlet>
+</div>

@@ -1,5 +1,5 @@
 import { v4 as uuid } from 'uuid';
-import { AccountEmail } from './account-email.model';
+import { AccountEmail } from 'src/model/account-email';
 
 export class Account {
   id: string;

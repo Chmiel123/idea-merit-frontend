@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { Account } from '../model/account.model';
+import { AccountLogin } from 'src/model/account-login';
+import { Account } from 'src/model/account';
+import { AccountLoginService } from 'src/services/account.service'
 
 @Component({
   selector: 'app-root',
@@ -8,6 +10,13 @@ import { Account } from '../model/account.model';
 })
 
 export class AppComponent {
-  title: string = 'idea-merit-frontend';
-  loggedAccount: Account | null = null;
+  loggedAccount: AccountLogin | null = null;
+
+  constructor(private accountLoginService: AccountLoginService) {
+    this.accountLoginService.accountLogin.subscribe(x => this.loggedAccount = x);
+  }
+
+  logout() {
+    this.accountLoginService.logout();
+  }
 }
