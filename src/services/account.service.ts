@@ -18,7 +18,12 @@ export class AccountLoginService {
         private router: Router,
         private http: HttpClient
     ) {
-        this.accountLoginSubject = new BehaviorSubject<AccountLogin | null>(JSON.parse(localStorage.getItem('accountLogin') ?? ''));
+        let s = localStorage.getItem('accountLogin');
+        let initialUser : AccountLogin | null = null
+        if (s) {
+            initialUser = JSON.parse(s);
+        }
+        this.accountLoginSubject = new BehaviorSubject<AccountLogin | null>(initialUser);
         this.accountLogin = this.accountLoginSubject.asObservable();
     }
 
