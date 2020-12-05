@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { environment } from 'src/environments/environment';
 import { Account } from 'src/model/account';
 import { AccountLogin } from 'src/model/account-login';
 import { AlertService } from 'src/services/alert.service';
+import { AccountEmail } from 'src/model/account-email';
 
 
 @Injectable({ providedIn: 'root' })
@@ -34,14 +35,46 @@ export class AccountLoginService {
     }
 
     login(username: string, password: string) {
-        return this.http.post<any>(`${environment.apiUrl}/account/login`, { username, password }).pipe(map(data => {
-            if (data.status === "Ok") {
-                let accountLogin = new AccountLogin(null, data.access_token, data.refresh_token);
-                localStorage.setItem('accountLogin', JSON.stringify(data));
-                this.accountLoginSubject.next(accountLogin);
-            }
-            return data
+        return this.http.post<any>(`${environment.apiUrl}/account/login`, { username, password })
+            .pipe(map(data => {
+                if (data.status === "Ok") {
+                    let accountLogin = new AccountLogin(null, data.access_token, data.refresh_token);
+                    localStorage.setItem('accountLogin', JSON.stringify(accountLogin));
+                    this.accountLoginSubject.next(accountLogin);
+                    this.updateAccountInfo();
+                }
+                return data;
         }));
+    }
+
+    async updateAccountInfo() {
+        let currentAccount$ = this.http.get<any>(`${environment.apiUrl}/account/current`);
+        let emails$ = this.http.get<any>(`${environment.apiUrl}/account/email`);
+        combineLatest([currentAccount$, emails$]).subscribe(([currentAccount, emails]) => {
+            let accountLogin = this.accountLoginSubject.value;
+            if (!accountLogin)
+                return;
+            let account = new Account(
+                currentAccount.id,
+                currentAccount.name,
+                currentAccount.domain,
+                currentAccount.created_date,
+                currentAccount.virtual_resource_start_date,
+                currentAccount.virtual_resource_speed,
+                currentAccount.virtual_resource_accrued,
+                currentAccount.total_resource_spent);
+            accountLogin.account = account;
+            account.emails = [];
+            console.log(emails);
+            emails.emails.forEach(function (email: any) {
+                let accountEmail = new AccountEmail(email.email, email.verified, email.primary);
+                account.emails.push(accountEmail);
+            });
+
+            localStorage.setItem('accountLogin', JSON.stringify(accountLogin));
+            this.accountLoginSubject.next(accountLogin);
+            console.log(accountLogin);
+        })
     }
 
     logout() {
