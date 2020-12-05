@@ -54,7 +54,12 @@ export class LoginComponent implements OnInit {
           .pipe(first())
           .subscribe(
               data => {
-                  this.router.navigate([this.returnUrl]);
+                  if (data.status === "Ok") {
+                    this.router.navigate([this.returnUrl]);
+                  } else if (data.status === "Error") {
+                    this.alertService.error(data.message);
+                    this.loading = false;
+                  }
               },
               error => {
                   this.alertService.error(error);

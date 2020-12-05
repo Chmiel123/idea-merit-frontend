@@ -7,6 +7,7 @@ import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Account } from 'src/model/account';
 import { AccountLogin } from 'src/model/account-login';
+import { AlertService } from 'src/services/alert.service';
 
 
 @Injectable({ providedIn: 'root' })
@@ -16,7 +17,8 @@ export class AccountLoginService {
 
     constructor(
         private router: Router,
-        private http: HttpClient
+        private http: HttpClient,
+        private alertService: AlertService
     ) {
         let s = localStorage.getItem('accountLogin');
         let initialUser : AccountLogin | null = null
@@ -32,13 +34,14 @@ export class AccountLoginService {
     }
 
     login(username: string, password: string) {
-        return this.http.post<AccountLogin>(`${environment.apiUrl}/account/login`, { username, password })
-            .pipe(map(accountLogin => {
-                // store accountLogin details and jwt token in local storage to keep accountLogin logged in between page refreshes
-                localStorage.setItem('accountLogin', JSON.stringify(accountLogin));
+        return this.http.post<any>(`${environment.apiUrl}/account/login`, { username, password }).pipe(map(data => {
+            if (data.status === "Ok") {
+                let accountLogin = new AccountLogin(null, data.access_token, data.refresh_token);
+                localStorage.setItem('accountLogin', JSON.stringify(data));
                 this.accountLoginSubject.next(accountLogin);
-                return accountLogin;
-            }));
+            }
+            return data
+        }));
     }
 
     logout() {
