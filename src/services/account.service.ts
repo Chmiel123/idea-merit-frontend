@@ -59,8 +59,8 @@ export class AccountLoginService {
                 currentAccount.id,
                 currentAccount.name,
                 currentAccount.domain,
-                currentAccount.created_date,
-                currentAccount.virtual_resource_start_date,
+                new Date(currentAccount.created_date + " UTC"),
+                new Date(currentAccount.virtual_resource_start_date + " UTC"),
                 currentAccount.virtual_resource_speed,
                 currentAccount.virtual_resource_accrued,
                 currentAccount.total_resource_spent);
@@ -73,7 +73,6 @@ export class AccountLoginService {
 
             localStorage.setItem('accountLogin', JSON.stringify(accountLogin));
             this.accountLoginSubject.next(accountLogin);
-            console.log(accountLogin);
         })
     }
 

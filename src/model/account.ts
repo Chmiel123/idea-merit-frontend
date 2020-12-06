@@ -28,7 +28,7 @@ export class Account {
     this.domain = domain;
     this.created_date = created_date;
     this.emails = [];
-    this.virtual_resource_start_date = new Date(virtual_resource_start_date);
+    this.virtual_resource_start_date = virtual_resource_start_date;
     this.virtual_resource_speed = virtual_resource_speed;
     this.virtual_resource_accrued = virtual_resource_accrued;
     this.total_resource_spent = total_resource_spent;
@@ -39,8 +39,8 @@ export class Account {
       plain.id,
       plain.name,
       plain.domain,
-      plain.created_date,
-      plain.virtual_resource_start_date,
+      new Date(plain.created_date),
+      new Date(plain.virtual_resource_start_date),
       plain.virtual_resource_speed,
       plain.virtual_resource_accrued,
       plain.total_resource_spent
@@ -54,7 +54,10 @@ export class Account {
   }
 
   available_resource() {
-    var time = (new Date().getTime() - this.virtual_resource_start_date.getTime()) * this.virtual_resource_speed / 1000.0 / 60.0 / 60.0;
+    let time = 0.0;
+    if (this.virtual_resource_speed > 0) {
+      time = (new Date().getTime() - this.virtual_resource_start_date.getTime()) * this.virtual_resource_speed / 1000.0 / 60.0 / 60.0;
+    }
     return time + this.virtual_resource_accrued;
   }
 }

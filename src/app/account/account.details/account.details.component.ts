@@ -19,7 +19,7 @@ export class AccountDetailsComponent implements OnInit {
     private accountLoginService: AccountLoginService
   ) {
     this.accountLogin = this.accountLoginService.accountLoginValue;
-    timer(0,5000).subscribe(() => {
+    timer(0,1000).subscribe(() => {
       this.resource = this.accountLogin?.account?.available_resource();
     });
   }
