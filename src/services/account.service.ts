@@ -24,7 +24,8 @@ export class AccountLoginService {
         let s = localStorage.getItem('accountLogin');
         let initialUser : AccountLogin | null = null
         if (s) {
-            initialUser = JSON.parse(s);
+            const parsed = JSON.parse(s);
+            initialUser = AccountLogin.parse(parsed)
         }
         this.accountLoginSubject = new BehaviorSubject<AccountLogin | null>(initialUser);
         this.accountLogin = this.accountLoginSubject.asObservable();
@@ -65,7 +66,6 @@ export class AccountLoginService {
                 currentAccount.total_resource_spent);
             accountLogin.account = account;
             account.emails = [];
-            console.log(emails);
             emails.emails.forEach(function (email: any) {
                 let accountEmail = new AccountEmail(email.email, email.verified, email.primary);
                 account.emails.push(accountEmail);
@@ -84,16 +84,20 @@ export class AccountLoginService {
         this.router.navigate(['/account/login']);
     }
 
-    register(username: string, password: string) {
-        return this.http.post(`${environment.apiUrl}/account/register`, { username, password });
+    register(username: string, password: string, email: string) {
+        return this.http.post<any>(`${environment.apiUrl}/account/register`, { username, password, email });
     }
 
     getByName(name: string) {
-        return this.http.get<Account[]>(`${environment.apiUrl}/account?name=${name}`);
+        return this.http.get<any>(`${environment.apiUrl}/account?name=${name}`);
     }
 
     getById(id: string) {
-        return this.http.get<Account>(`${environment.apiUrl}/account?id=${id}`);
+        return this.http.get<any>(`${environment.apiUrl}/account?id=${id}`);
+    }
+
+    updateEmail(email: string, primary: boolean) {
+        return this.http.post(`${environment.apiUrl}/account/email`, { email, primary });
     }
 
     // update(id, params) {

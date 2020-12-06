@@ -22,7 +22,11 @@ export class RegisterComponent implements OnInit {
       private router: Router,
       private accountLoginService: AccountLoginService,
       private alertService: AlertService
-  ) { }
+  ) {
+    if (this.accountLoginService.accountLoginValue) {
+      this.router.navigate(['/']);
+    }
+  }
 
   ngOnInit() {
       this.form = this.formBuilder.group({
@@ -44,12 +48,17 @@ export class RegisterComponent implements OnInit {
     }
 
     this.loading = true;
-    this.accountLoginService.register(this.form.controls.username.value, this.form.controls.password.value)
+    this.accountLoginService.register(this.form.controls.username.value, this.form.controls.password.value, this.form.controls.email.value)
         .pipe(first())
         .subscribe(
           data => {
-              this.alertService.success('Registration successful', { keepAfterRouteChange: true });
-              this.router.navigate(['../login'], { relativeTo: this.route });
+              if (data.status === "Ok") {
+                  this.alertService.success(data.message, { keepAfterRouteChange: true });
+                  this.router.navigate(['../login'], { relativeTo: this.route });
+              } else if (data.status === "Error") {
+                  this.alertService.error(data.message);
+                  this.loading = false;
+              }
           },
           error => {
               this.alertService.error(error);

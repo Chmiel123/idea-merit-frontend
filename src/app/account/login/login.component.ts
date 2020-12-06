@@ -23,7 +23,11 @@ export class LoginComponent implements OnInit {
         private router: Router,
         private accountLoginService: AccountLoginService,
         private alertService: AlertService
-    ) { }
+    ) {
+        if (this.accountLoginService.accountLoginValue) {
+            this.router.navigate(['/']);
+        }
+    }
 
     ngOnInit() {
         this.form = this.formBuilder.group({

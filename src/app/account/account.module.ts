@@ -6,6 +6,7 @@ import { AccountRoutingModule } from './account-routing.module';
 import { LayoutComponent } from './layout/layout.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import { AccountDetailsComponent } from './account.details/account.details.component';
 
 @NgModule({
     imports: [
@@ -16,7 +17,8 @@ import { RegisterComponent } from './register/register.component';
     declarations: [
         LayoutComponent,
         LoginComponent,
-        RegisterComponent
+        RegisterComponent,
+        AccountDetailsComponent
     ]
 })
 export class AccountModule { }

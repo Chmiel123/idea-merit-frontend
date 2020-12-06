@@ -1,0 +1,29 @@
+<div class="card">
+    <h4 class="card-header">Account details</h4>
+    <div class="card-body">
+        <table class="table user-view-table m-0">
+            <tbody>
+                <tr>
+                    <td>Name:</td>
+                    <td>{{accountLogin?.account?.name}}</td>
+                </tr>
+                <tr>
+                    <td>Id:</td>
+                    <td>{{accountLogin?.account?.id}}</td>
+                </tr>
+                <tr>
+                    <td>Created:</td>
+                    <td>{{accountLogin?.account?.created_date}}</td>
+                </tr>
+                <tr>
+                    <td>Resource available:</td>
+                    <td>{{resource}}</td>
+                </tr>
+                <tr>
+                    <td>Resource spent:</td>
+                    <td>{{accountLogin?.account?.total_resource_spent}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

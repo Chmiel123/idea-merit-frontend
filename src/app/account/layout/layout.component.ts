@@ -12,10 +12,5 @@ export class LayoutComponent {
   constructor(
     private router: Router,
     private accountLoginService: AccountLoginService
-  ) {
-    // redirect to home if already logged in
-    if (this.accountLoginService.accountLoginValue) {
-        this.router.navigate(['/']);
-    }
-  }
+  ) { }
 }
