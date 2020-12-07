@@ -17,15 +17,15 @@
                 </tr>
                 <tr>
                     <td>Resource available:</td>
-                    <td>{{resource | TimeResource}}</td>
+                    <td><span class="resource resource-available">{{resource | TimeResource}}</span></td>
                 </tr>
                 <tr>
                     <td>Resource accruement speed:</td>
-                    <td>{{accountLogin?.account?.virtual_resource_speed}}&#10799;</td>
+                    <td><span class="resource resource-available">{{accountLogin?.account?.virtual_resource_speed}}&#10799;</span></td>
                 </tr>
                 <tr>
                     <td>Resource spent:</td>
-                    <td>{{accountLogin?.account?.total_resource_spent}}</td>
+                    <td><span class="resource resource-used">{{accountLogin?.account?.total_resource_spent | TimeResource}}</span></td>
                 </tr>
             </tbody>
         </table>

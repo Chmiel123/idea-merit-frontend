@@ -2,3 +2,16 @@
 a {
     cursor: pointer;
 }
+
+.resource {
+    font-weight: bold;
+    font-stretch: expanded;
+}
+
+.resource-available {
+    color: #1f9e1f;
+}
+
+.resource-used {
+    color: #7a7a7a;
+}

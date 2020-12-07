@@ -11,13 +11,13 @@ export class TimeResourcePipe {
         const timeS = timeM * 60.0;
         let result = "";
 
-        if (timeD > 1) {
+        if (timeD >= 1) {
             result += Math.floor(timeD) + "d "
         }
-        if (timeH > 1) {
+        if (timeH >= 1) {
             result += Math.floor(timeH % 24) + "h "
         }
-        if (timeH < 24 && timeM > 0) {
+        if (timeH < 24 && timeM >= 1) {
             result += Math.floor(timeM % 60) + "m "
         }
         if (timeH < 1) {
