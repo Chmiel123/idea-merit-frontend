@@ -7,6 +7,7 @@ import { LayoutComponent } from './layout/layout.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { AccountDetailsComponent } from './account.details/account.details.component';
+import { TimeResourcePipe } from 'src/helpers/timeResource.pipe';
 
 @NgModule({
     imports: [
@@ -18,7 +19,8 @@ import { AccountDetailsComponent } from './account.details/account.details.compo
         LayoutComponent,
         LoginComponent,
         RegisterComponent,
-        AccountDetailsComponent
+        AccountDetailsComponent,
+        TimeResourcePipe
     ]
 })
 export class AccountModule { }
