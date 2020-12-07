@@ -1,14 +1,15 @@
-<nav class="navbar navbar-expand navbar-dark bg-dark" *ngIf="loggedAccount">
+<nav class="navbar navbar-expand navbar-dark bg-dark" *ngIf="accountLogin">
   <div class="navbar-nav">
     <a class="nav-item nav-link" routerLink="/" routerLinkActive="active"
       [routerLinkActiveOptions]="{exact: true}">Home</a>
   </div>
   <div class="navbar-nav ml-auto">
+    <div class="container"><h4><span class="nav-item badge badge-success">{{resource | TimeResource}}</span></h4></div>
     <a class="nav-item nav-link" routerLink="/account/details" routerLinkActive="active">Account</a>
     <a class="nav-item nav-link" (click)="logout()">Logout</a>
   </div>
 </nav>
-<nav class="navbar navbar-expand navbar-dark bg-dark" *ngIf="!loggedAccount">
+<nav class="navbar navbar-expand navbar-dark bg-dark" *ngIf="!accountLogin">
   <div class="navbar-nav">
     <a class="nav-item nav-link" routerLink="/" routerLinkActive="active"
       [routerLinkActiveOptions]="{exact: true}">Home</a>
@@ -23,7 +24,7 @@
 </nav>
 
 <!-- main app container -->
-<div class="app-container" [ngClass]="{ 'bg-light': loggedAccount }">
+<div class="app-container" [ngClass]="{ 'bg-light': accountLogin }">
   <alert></alert>
   <router-outlet></router-outlet>
 </div>

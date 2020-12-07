@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AccountLogin } from 'src/model/account-login';
 import { Account } from 'src/model/account';
 import { AccountLoginService } from 'src/services/account.service'
+import { timer } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -10,10 +11,14 @@ import { AccountLoginService } from 'src/services/account.service'
 })
 
 export class AppComponent {
-  loggedAccount: AccountLogin | null = null;
+  accountLogin: AccountLogin | null = null;
+  resource: number | undefined;
 
   constructor(private accountLoginService: AccountLoginService) {
-    this.accountLoginService.accountLogin.subscribe(x => this.loggedAccount = x);
+    this.accountLoginService.accountLogin.subscribe(x => this.accountLogin = x);
+    timer(0,1000).subscribe(() => {
+      this.resource = this.accountLogin?.account?.available_resource();
+    });
   }
 
   logout() {
