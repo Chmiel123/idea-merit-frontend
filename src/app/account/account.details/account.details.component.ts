@@ -3,6 +3,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AccountLogin } from 'src/model/account-login';
 import { AccountLoginService } from 'src/services/account.service';
 import { timer } from 'rxjs';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { first } from 'rxjs/operators';
+import { AlertService } from 'src/services/alert.service';
+import { AccountEmail } from 'src/model/account-email';
 
 @Component({
   selector: 'app-account.details',
@@ -13,18 +18,112 @@ export class AccountDetailsComponent implements OnInit {
   accountLogin: AccountLogin | null;
   resource: number | undefined;
 
+  addEmailForm: FormGroup;
+  addEmailLoading = false;
+  addEmailSubmitted = false;
+
   constructor(
+    private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private accountLoginService: AccountLoginService
+    private accountLoginService: AccountLoginService,
+    private modalService: NgbModal,
+    private alertService: AlertService
   ) {
     this.accountLogin = this.accountLoginService.accountLoginValue;
-    timer(0,1000).subscribe(() => {
+    timer(0, 1000).subscribe(() => {
       this.resource = this.accountLogin?.account?.available_resource();
     });
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
+    this.addEmailForm = this.formBuilder.group({
+      email: ['', Validators.required]
+    });
   }
 
+  open(content: any) {
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result: any) => {
+      console.log(result);
+    }, (reason: any) => {
+      console.log(reason);
+    });
+  }
+
+  setPrimary(email: AccountEmail) {
+    this.accountLoginService.updateEmail(email.email, true)
+      .pipe(first())
+      .subscribe(
+        (data: any) => {
+          if (data.status === "Ok") {
+            this.alertService.success(data.message, { keepAfterRouteChange: true });
+            this.accountLoginService.updateAccountInfo();
+          } else if (data.status === "Error") {
+            this.alertService.error(data.message);
+          }
+        },
+        error => {
+          this.alertService.error(error);
+        });
+  }
+
+  resendVerification(email: AccountEmail) {
+    this.accountLoginService.updateEmail(email.email, email.primary)
+      .pipe(first())
+      .subscribe(
+        (data: any) => {
+          if (data.status === "Ok") {
+            this.alertService.success(data.message, { keepAfterRouteChange: true });
+            this.accountLoginService.updateAccountInfo();
+          } else if (data.status === "Error") {
+            this.alertService.error(data.message);
+          }
+        },
+        error => {
+          this.alertService.error(error);
+        });
+  }
+
+  deleteEmail(email: AccountEmail) {
+    this.accountLoginService.deleteEmail(email.email)
+    .pipe(first())
+    .subscribe(
+      (data: any) => {
+        if (data.status === "Ok") {
+          this.alertService.success(data.message, { keepAfterRouteChange: true });
+          this.accountLoginService.updateAccountInfo();
+        } else if (data.status === "Error") {
+          this.alertService.error(data.message);
+        }
+      },
+      error => {
+        this.alertService.error(error);
+      });
+  }
+
+  onSubmit() {
+    this.addEmailSubmitted = true;
+
+    // stop here if form is invalid
+    if (this.addEmailForm.invalid) {
+      return;
+    }
+
+    this.accountLoginService.updateEmail(this.addEmailForm.controls.email.value, false)
+      .pipe(first())
+      .subscribe(
+        (data: any) => {
+          if (data.status === "Ok") {
+            this.alertService.success(data.message, { keepAfterRouteChange: true });
+            this.accountLoginService.updateAccountInfo();
+          } else if (data.status === "Error") {
+            this.alertService.error(data.message);
+            this.addEmailLoading = false;
+          }
+        },
+        error => {
+          this.alertService.error(error);
+          this.addEmailLoading = false;
+        });
+  }
 }

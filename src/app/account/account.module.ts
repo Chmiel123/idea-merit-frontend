@@ -8,13 +8,15 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { AccountDetailsComponent } from './account.details/account.details.component';
 import { SharedModule } from '../shared.module';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
     imports: [
         CommonModule,
         ReactiveFormsModule,
         AccountRoutingModule,
-        SharedModule
+        SharedModule,
+        NgbModule
     ],
     declarations: [
         LayoutComponent,

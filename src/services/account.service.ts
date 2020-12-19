@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -22,7 +22,7 @@ export class AccountLoginService {
         private alertService: AlertService
     ) {
         let s = localStorage.getItem('accountLogin');
-        let initialUser : AccountLogin | null = null
+        let initialUser: AccountLogin | null = null
         if (s) {
             const parsed = JSON.parse(s);
             initialUser = AccountLogin.parse(parsed)
@@ -45,7 +45,7 @@ export class AccountLoginService {
                     this.updateAccountInfo();
                 }
                 return data;
-        }));
+            }));
     }
 
     async updateAccountInfo() {
@@ -97,6 +97,18 @@ export class AccountLoginService {
 
     updateEmail(email: string, primary: boolean) {
         return this.http.post(`${environment.apiUrl}/account/email`, { email, primary });
+    }
+
+    deleteEmail(email: string) {
+        const options = {
+            headers: new HttpHeaders({
+              'Content-Type': 'application/json',
+            }),
+            body: {
+              email: email
+            },
+          };
+        return this.http.delete(`${environment.apiUrl}/account/email`, options)
     }
 
     // update(id, params) {

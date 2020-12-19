@@ -3,6 +3,10 @@ a {
     cursor: pointer;
 }
 
+.btn-svg {
+    width: 1em; 
+}
+
 .resource {
     font-weight: bold;
     font-stretch: expanded;

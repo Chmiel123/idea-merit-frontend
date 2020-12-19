@@ -17,11 +17,11 @@ export class RegisterComponent implements OnInit {
   submitted = false;
 
   constructor(
-      private formBuilder: FormBuilder,
-      private route: ActivatedRoute,
-      private router: Router,
-      private accountLoginService: AccountLoginService,
-      private alertService: AlertService
+    private formBuilder: FormBuilder,
+    private route: ActivatedRoute,
+    private router: Router,
+    private accountLoginService: AccountLoginService,
+    private alertService: AlertService
   ) {
     if (this.accountLoginService.accountLoginValue) {
       this.router.navigate(['/']);
@@ -29,11 +29,11 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit() {
-      this.form = this.formBuilder.group({
-          username: ['', Validators.required],
-          email: ['', Validators.required],
-          password: ['', [Validators.required]]
-      });
+    this.form = this.formBuilder.group({
+      username: ['', Validators.required],
+      email: ['', Validators.required],
+      password: ['', [Validators.required]]
+    });
   }
 
   onSubmit() {
@@ -49,20 +49,20 @@ export class RegisterComponent implements OnInit {
 
     this.loading = true;
     this.accountLoginService.register(this.form.controls.username.value, this.form.controls.password.value, this.form.controls.email.value)
-        .pipe(first())
-        .subscribe(
-          data => {
-              if (data.status === "Ok") {
-                  this.alertService.success(data.message, { keepAfterRouteChange: true });
-                  this.router.navigate(['../login'], { relativeTo: this.route });
-              } else if (data.status === "Error") {
-                  this.alertService.error(data.message);
-                  this.loading = false;
-              }
-          },
-          error => {
-              this.alertService.error(error);
-              this.loading = false;
-          });
+      .pipe(first())
+      .subscribe(
+        data => {
+          if (data.status === "Ok") {
+            this.alertService.success(data.message, { keepAfterRouteChange: true });
+            this.router.navigate(['../login'], { relativeTo: this.route });
+          } else if (data.status === "Error") {
+            this.alertService.error(data.message);
+            this.loading = false;
+          }
+        },
+        error => {
+          this.alertService.error(error);
+          this.loading = false;
+        });
   }
 }
