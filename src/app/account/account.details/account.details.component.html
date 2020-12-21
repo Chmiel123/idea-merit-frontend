@@ -22,6 +22,18 @@
     </div>
 </ng-template>
 
+<ng-template #confirmDelete let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Confirm delete</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="modal.close('delete')"><img class="btn-svg" src = "assets/trash.svg" alt="Delete"/></button>
+    </div>
+</ng-template>
+
 <div class="card">
     <h4 class="card-header">Account details</h4>
     <div class="card-body">
@@ -69,7 +81,7 @@
                     <td class="align-middle" *ngIf="!email.primary"><button type="button" class="btn btn-secondary" (click)="setPrimary(email)">Set as primary</button></td>
                     <td class="align-middle" *ngIf="email.verified">Verified</td>
                     <td class="align-middle" *ngIf="!email.verified"><button type="button" class="btn btn-secondary" (click)="resendVerification(email)">Resend verification email</button></td>
-                    <td class="align-middle"><button type="button" class="btn btn-danger" (click)="deleteEmail(email)"><img class="btn-svg" src = "assets/trash.svg" alt="Delete"/></button></td>
+                    <td class="align-middle"><button type="button" class="btn btn-danger" (click)="deleteEmail(confirmDelete, email)"><img class="btn-svg" src = "assets/trash.svg" alt="Delete"/></button></td>
                 </tr>
             </tbody>
         </table>

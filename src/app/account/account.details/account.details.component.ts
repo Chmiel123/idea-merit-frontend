@@ -44,9 +44,9 @@ export class AccountDetailsComponent implements OnInit {
 
   open(content: any) {
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result: any) => {
-      console.log(result);
+      this.onSubmit();
     }, (reason: any) => {
-      console.log(reason);
+      this.resetAddEmailModal();
     });
   }
 
@@ -84,25 +84,30 @@ export class AccountDetailsComponent implements OnInit {
         });
   }
 
-  deleteEmail(email: AccountEmail) {
-    this.accountLoginService.deleteEmail(email.email)
-    .pipe(first())
-    .subscribe(
-      (data: any) => {
-        if (data.status === "Ok") {
-          this.alertService.success(data.message, { keepAfterRouteChange: true });
-          this.accountLoginService.updateAccountInfo();
-        } else if (data.status === "Error") {
-          this.alertService.error(data.message);
-        }
-      },
-      error => {
-        this.alertService.error(error);
-      });
+  deleteEmail(content: any, email: AccountEmail) {
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result: any) => {
+      this.accountLoginService.deleteEmail(email.email)
+      .pipe(first())
+      .subscribe(
+        (data: any) => {
+          if (data.status === "Ok") {
+            this.alertService.success(data.message, { keepAfterRouteChange: true });
+            this.accountLoginService.updateAccountInfo();
+          } else if (data.status === "Error") {
+            this.alertService.error(data.message);
+          }
+        },
+        error => {
+          this.alertService.error(error);
+        });
+    }, (reason: any) => {
+      this.modalService.dismissAll();
+    });
   }
 
   onSubmit() {
     this.addEmailSubmitted = true;
+    this.modalService.dismissAll();
 
     // stop here if form is invalid
     if (this.addEmailForm.invalid) {
@@ -116,14 +121,21 @@ export class AccountDetailsComponent implements OnInit {
           if (data.status === "Ok") {
             this.alertService.success(data.message, { keepAfterRouteChange: true });
             this.accountLoginService.updateAccountInfo();
+            this.resetAddEmailModal();
           } else if (data.status === "Error") {
             this.alertService.error(data.message);
-            this.addEmailLoading = false;
+            this.resetAddEmailModal();
           }
         },
         error => {
           this.alertService.error(error);
-          this.addEmailLoading = false;
+          this.resetAddEmailModal();
         });
+  }
+
+  resetAddEmailModal() {
+    this.addEmailLoading = false;
+    this.addEmailForm.controls.email.setValue('');
+    this.addEmailSubmitted = false;
   }
 }
