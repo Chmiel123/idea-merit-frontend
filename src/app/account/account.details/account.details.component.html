@@ -9,7 +9,7 @@
         <form [formGroup]="addEmailForm" (ngSubmit)="onSubmit()">
             <div class="form-group">
                 <label for="email">Email</label>
-                <input type="text" formControlName="email" class="form-control"
+                <input type="text" formControlName="email" class="form-control" appAutofocus
                     [ngClass]="{ 'is-invalid': addEmailSubmitted && addEmailForm.controls.email.errors }" />
                 <div *ngIf="addEmailSubmitted && addEmailForm.controls.email.errors" class="invalid-feedback">
                     <div *ngIf="addEmailForm.controls.email.errors.required">Email is required</div>

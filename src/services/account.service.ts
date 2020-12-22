@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest, timer } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { environment } from 'src/environments/environment';
@@ -29,6 +29,7 @@ export class AccountLoginService {
         }
         this.accountLoginSubject = new BehaviorSubject<AccountLogin | null>(initialUser);
         this.accountLogin = this.accountLoginSubject.asObservable();
+        this.startRefreshTokenTimer();
     }
 
     public get accountLoginValue(): AccountLogin | null {
@@ -44,6 +45,7 @@ export class AccountLoginService {
                     this.accountLoginSubject.next(accountLogin);
                     this.updateAccountInfo();
                 }
+                this.startRefreshTokenTimer();
                 return data;
             }));
     }
@@ -76,8 +78,48 @@ export class AccountLoginService {
         })
     }
 
+    refresh() {
+        console.log('refresh started.');
+        this.http.get<any>(`${environment.apiUrl}/account/refresh`).subscribe(
+            (data: any) => {
+                console.log('refresh done.');
+                console.log(data);
+                let accountLogin = this.accountLoginSubject.value;
+                if (accountLogin) {
+                    accountLogin.access_token = data.access_token;
+                    accountLogin.refresh_token = data.refresh_token;
+                }
+                localStorage.setItem('accountLogin', JSON.stringify(accountLogin));
+                this.accountLoginSubject.next(accountLogin);
+                
+                this.startRefreshTokenTimer();
+            },
+            error => {
+              this.alertService.error(error);
+            });
+    }
+
+    private refreshTokenTimeout: any;
+
+    private startRefreshTokenTimer() {
+        // parse json object from base64 encoded jwt token
+        if (!this.accountLoginSubject.value)
+            return;
+        const jwtToken = JSON.parse(atob(this.accountLoginSubject.value.access_token.split('.')[1]));
+
+        // set a timeout to refresh the token a minute before it expires
+        const expires = new Date(jwtToken.exp * 1000);
+        const timeout = expires.getTime() - Date.now() - (60 * 1000);
+
+        this.refreshTokenTimeout = setTimeout(() => this.refresh(), timeout);
+    }
+
+    private stopRefreshTokenTimer() {
+        clearTimeout(this.refreshTokenTimeout);
+    }
+
     logout() {
-        // remove accountLogin from local storage and set current accountLogin to null
+        this.stopRefreshTokenTimer();
         localStorage.removeItem('accountLogin');
         this.accountLoginSubject.next(null);
         this.router.navigate(['/account/login']);
@@ -110,31 +152,4 @@ export class AccountLoginService {
           };
         return this.http.delete(`${environment.apiUrl}/account/email`, options)
     }
-
-    // update(id, params) {
-    //     return this.http.put(`${environment.apiUrl}/accountLogins/${id}`, params)
-    //         .pipe(map(x => {
-    //             // update stored accountLogin if the logged in accountLogin updated their own record
-    //             if (id == this.accountLoginValue.id) {
-    //                 // update local storage
-    //                 const accountLogin = { ...this.accountLoginValue, ...params };
-    //                 localStorage.setItem('accountLogin', JSON.stringify(accountLogin));
-
-    //                 // publish updated accountLogin to subscribers
-    //                 this.accountLoginSubject.next(accountLogin);
-    //             }
-    //             return x;
-    //         }));
-    // }
-
-    // delete(id: string) {
-    //     return this.http.delete(`${environment.apiUrl}/accountLogins/${id}`)
-    //         .pipe(map(x => {
-    //             // auto logout if the logged in accountLogin deleted their own record
-    //             if (id == this.accountLoginValue.id) {
-    //                 this.logout();
-    //             }
-    //             return x;
-    //         }));
-    // }
 }

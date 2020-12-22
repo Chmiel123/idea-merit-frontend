@@ -43,10 +43,14 @@ export class AccountDetailsComponent implements OnInit {
   }
 
   open(content: any) {
+    this.resetAddEmailModal();
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result: any) => {
-      this.onSubmit();
+      console.log(this.addEmailForm.valid);
+      if (this.addEmailForm.valid) {
+        this.onSubmit();
+      }
     }, (reason: any) => {
-      this.resetAddEmailModal();
+      console.log(reason);
     });
   }
 
@@ -107,7 +111,6 @@ export class AccountDetailsComponent implements OnInit {
 
   onSubmit() {
     this.addEmailSubmitted = true;
-    this.modalService.dismissAll();
 
     // stop here if form is invalid
     if (this.addEmailForm.invalid) {
@@ -122,6 +125,7 @@ export class AccountDetailsComponent implements OnInit {
             this.alertService.success(data.message, { keepAfterRouteChange: true });
             this.accountLoginService.updateAccountInfo();
             this.resetAddEmailModal();
+            this.modalService.dismissAll();
           } else if (data.status === "Error") {
             this.alertService.error(data.message);
             this.resetAddEmailModal();

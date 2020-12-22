@@ -1,12 +1,15 @@
 import { NgModule } from '@angular/core';
+import { AutofocusDirective } from 'src/helpers/autofocus.directive';
 import { TimeResourcePipe } from 'src/helpers/timeResource.pipe';
 
 @NgModule({
   declarations: [ 
-    TimeResourcePipe
+    TimeResourcePipe,
+    AutofocusDirective
   ],
   exports: [
-    TimeResourcePipe
+    TimeResourcePipe,
+    AutofocusDirective
   ]
 })
 export class SharedModule {}
