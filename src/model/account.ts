@@ -34,6 +34,14 @@ export class Account {
     this.total_resource_spent = total_resource_spent;
   }
 
+  available_resource() {
+    let time = 0.0;
+    if (this.virtual_resource_speed > 0) {
+      time = (new Date().getTime() - this.virtual_resource_start_date.getTime()) * this.virtual_resource_speed / 1000.0 / 60.0 / 60.0;
+    }
+    return time + this.virtual_resource_accrued;
+  }
+
   static parse(plain: any): Account {
     const result = new Account(
       plain.id,
@@ -51,13 +59,5 @@ export class Account {
       });
     }
     return result;
-  }
-
-  available_resource() {
-    let time = 0.0;
-    if (this.virtual_resource_speed > 0) {
-      time = (new Date().getTime() - this.virtual_resource_start_date.getTime()) * this.virtual_resource_speed / 1000.0 / 60.0 / 60.0;
-    }
-    return time + this.virtual_resource_accrued;
   }
 }
