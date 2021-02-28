@@ -50,7 +50,6 @@ export class AccountDetailsComponent implements OnInit {
         this.onSubmit();
       }
     }, (reason: any) => {
-      console.log(reason);
     });
   }
 
