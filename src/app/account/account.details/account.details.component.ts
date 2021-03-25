@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountLogin } from 'src/model/account-login';
-import { AccountLoginService } from 'src/services/account.service';
+import { AccountLoginService } from 'src/services/login.service';
 import { timer } from 'rxjs';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';

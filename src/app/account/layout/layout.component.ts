@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { AccountLoginService } from 'src/services/account.service';
+import { AccountLoginService } from 'src/services/login.service';
 
 @Component({
   selector: 'app-layout',

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { AccountLogin } from 'src/model/account-login';
-import { AccountLoginService } from 'src/services/account.service'
+import { AccountLoginService } from 'src/services/login.service'
 
 @Component({
   selector: 'app-home',

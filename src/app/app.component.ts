@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { AccountLogin } from 'src/model/account-login';
 import { Account } from 'src/model/account';
-import { AccountLoginService } from 'src/services/account.service'
+import { AccountLoginService } from 'src/services/login.service'
 import { timer } from 'rxjs';
 
 @Component({
