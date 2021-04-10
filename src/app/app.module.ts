@@ -13,6 +13,7 @@ import { JwtInterceptor } from 'src/helpers/jwt.interceptor';
 import { ErrorInterceptor } from 'src/helpers/error.interceptor';
 import { TimeResourcePipe } from 'src/helpers/timeResource.pipe';
 import { SharedModule } from './shared.module';
+import { IdeaComponent } from './system/idea/idea.component';
 
 @NgModule({
   imports: [
@@ -26,7 +27,8 @@ import { SharedModule } from './shared.module';
   declarations: [
     AppComponent,
     HomeComponent,
-    AlertComponent
+    AlertComponent,
+    IdeaComponent
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { AccountLoginService } from 'src/services/login.service';
+import { LoginService } from 'src/services/login.service';
 
 @Component({
   selector: 'app-layout',
@@ -11,6 +11,6 @@ import { AccountLoginService } from 'src/services/login.service';
 export class LayoutComponent {
   constructor(
     private router: Router,
-    private accountLoginService: AccountLoginService
+    private accountLoginService: LoginService
   ) { }
 }

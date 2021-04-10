@@ -1,7 +1,8 @@
 <div class="p-4">
     <div class="container">
-        <h1>Hi {{accountLogin?.account?.name}}!</h1>
-        <p>You're logged in with Angular 9!!</p>
-        <p><a routerLink="/users">Manage Users</a></p>
+        <h2 >Ideas</h2>
+        <div *ngFor="let idea of ideas">
+            <app-idea [idea]="idea"></app-idea>
+        </div>
     </div>
 </div>

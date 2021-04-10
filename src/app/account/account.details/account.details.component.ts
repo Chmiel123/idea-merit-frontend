@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountLogin } from 'src/model/account-login';
-import { AccountLoginService } from 'src/services/login.service';
+import { LoginService } from 'src/services/login.service';
 import { timer } from 'rxjs';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -26,11 +26,12 @@ export class AccountDetailsComponent implements OnInit {
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private accountLoginService: AccountLoginService,
+    private accountLoginService: LoginService,
     private modalService: NgbModal,
     private alertService: AlertService
   ) {
-    this.accountLogin = this.accountLoginService.accountLoginValue;
+    this.accountLogin = this.accountLoginService.loginValue;
+    console.log(this.accountLogin);
     timer(0, 1000).subscribe(() => {
       this.resource = this.accountLogin?.account?.available_resource();
     });

@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
-import { AccountLoginService } from 'src/services/login.service';
+import { LoginService } from 'src/services/login.service';
 import { AlertService } from 'src/services/alert.service'
 
 @Component({
@@ -21,10 +21,10 @@ export class LoginComponent implements OnInit {
         private formBuilder: FormBuilder,
         private route: ActivatedRoute,
         private router: Router,
-        private accountLoginService: AccountLoginService,
+        private accountLoginService: LoginService,
         private alertService: AlertService
     ) {
-        if (this.accountLoginService.accountLoginValue) {
+        if (this.accountLoginService.loginValue) {
             this.router.navigate(['/']);
         }
     }

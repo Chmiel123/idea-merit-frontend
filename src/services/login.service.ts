@@ -12,28 +12,28 @@ import { AccountEmail } from 'src/model/account-email';
 
 
 @Injectable({ providedIn: 'root' })
-export class AccountLoginService {
-    private accountLoginSubject: BehaviorSubject<AccountLogin | null>;
-    public accountLogin: Observable<AccountLogin | null>;
+export class LoginService {
+    private loginSubject: BehaviorSubject<AccountLogin | null>;
+    public loginObservable: Observable<AccountLogin | null>;
 
     constructor(
         private router: Router,
         private http: HttpClient,
         private alertService: AlertService
     ) {
-        let s = localStorage.getItem('accountLogin');
+        let s = localStorage.getItem('login');
         let initialUser: AccountLogin | null = null
         if (s) {
             const parsed = JSON.parse(s);
             initialUser = AccountLogin.parse(parsed)
         }
-        this.accountLoginSubject = new BehaviorSubject<AccountLogin | null>(initialUser);
-        this.accountLogin = this.accountLoginSubject.asObservable();
+        this.loginSubject = new BehaviorSubject<AccountLogin | null>(initialUser);
+        this.loginObservable = this.loginSubject.asObservable();
         this.startRefreshTokenTimer();
     }
 
-    public get accountLoginValue(): AccountLogin | null {
-        return this.accountLoginSubject.value;
+    public get loginValue(): AccountLogin | null {
+        return this.loginSubject.value;
     }
 
     login(username: string, password: string) {
@@ -41,8 +41,8 @@ export class AccountLoginService {
             .pipe(map(data => {
                 if (data.status === "Ok") {
                     let accountLogin = new AccountLogin(null, data.access_token, data.refresh_token);
-                    localStorage.setItem('accountLogin', JSON.stringify(accountLogin));
-                    this.accountLoginSubject.next(accountLogin);
+                    localStorage.setItem('login', JSON.stringify(accountLogin));
+                    this.loginSubject.next(accountLogin);
                     this.updateAccountInfo();
                 }
                 this.startRefreshTokenTimer();
@@ -54,7 +54,7 @@ export class AccountLoginService {
         let currentAccount$ = this.http.get<any>(`${environment.apiUrl}/account/current`);
         let emails$ = this.http.get<any>(`${environment.apiUrl}/account/email`);
         combineLatest([currentAccount$, emails$]).subscribe(([currentAccount, emails]) => {
-            let accountLogin = this.accountLoginSubject.value;
+            let accountLogin = this.loginSubject.value;
             if (!accountLogin)
                 return;
             let account = new Account(
@@ -73,8 +73,8 @@ export class AccountLoginService {
                 account.emails.push(accountEmail);
             });
 
-            localStorage.setItem('accountLogin', JSON.stringify(accountLogin));
-            this.accountLoginSubject.next(accountLogin);
+            localStorage.setItem('login', JSON.stringify(accountLogin));
+            this.loginSubject.next(accountLogin);
         })
     }
 
@@ -84,13 +84,13 @@ export class AccountLoginService {
             (data: any) => {
                 console.log('refresh done.');
                 console.log(data);
-                let accountLogin = this.accountLoginSubject.value;
+                let accountLogin = this.loginSubject.value;
                 if (accountLogin) {
                     accountLogin.access_token = data.access_token;
                     accountLogin.refresh_token = data.refresh_token;
                 }
-                localStorage.setItem('accountLogin', JSON.stringify(accountLogin));
-                this.accountLoginSubject.next(accountLogin);
+                localStorage.setItem('login', JSON.stringify(accountLogin));
+                this.loginSubject.next(accountLogin);
                 
                 this.startRefreshTokenTimer();
             },
@@ -103,9 +103,9 @@ export class AccountLoginService {
 
     private startRefreshTokenTimer() {
         // parse json object from base64 encoded jwt token
-        if (!this.accountLoginSubject.value)
+        if (!this.loginSubject.value)
             return;
-        const jwtToken = JSON.parse(atob(this.accountLoginSubject.value.access_token.split('.')[1]));
+        const jwtToken = JSON.parse(atob(this.loginSubject.value.access_token.split('.')[1]));
 
         // set a timeout to refresh the token a minute before it expires
         const expires = new Date(jwtToken.exp * 1000);
@@ -120,8 +120,8 @@ export class AccountLoginService {
 
     logout() {
         this.stopRefreshTokenTimer();
-        localStorage.removeItem('accountLogin');
-        this.accountLoginSubject.next(null);
+        localStorage.removeItem('login');
+        this.loginSubject.next(null);
         this.router.navigate(['/account/login']);
     }
 
