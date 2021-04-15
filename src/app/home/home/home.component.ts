@@ -14,7 +14,6 @@ export class HomeComponent implements OnInit {
   ideas: Array<Idea>;
 
   constructor(private ideaService: IdeaService) {
-    this.ideas = this.ideaService.ideaValue;
   }
 
   ngOnInit() {

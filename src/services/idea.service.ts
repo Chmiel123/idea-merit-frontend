@@ -32,11 +32,18 @@ export class IdeaService {
             .subscribe(data => {
                 let ideas: Array<Idea> = data;
                 this.ideaSubject.next(ideas);
-                console.log(ideas);
-                return data;
             });
     }
 
+    getForParent(idea: Idea): Promise<any> {
+        return new Promise((resolve, reject) =>{
+            this.http.get<any>(`${environment.apiUrl}/idea?parent_id=${idea.id}`)
+                .subscribe(data => {
+                    let ideas: Array<Idea> = data;
+                    resolve(ideas);
+                });
+        });
+    }
 
     // async updateAccountInfo() {
     //     let currentAccount$ = this.http.get<any>(`${environment.apiUrl}/account/current`);

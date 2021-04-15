@@ -1,8 +1,14 @@
 
-<div *ngIf="idea"class="card">
+<div *ngIf="idea" class="card">
     <h4 class="card-header">{{idea?.name}}</h4>
     <div class="card-body">
         <p>{{idea?.content}}</p>
+        <button class="btn" (click)="clickShowChildren()">Expand subideas</button>
+    </div>
+    <div *ngIf="showChildren" class="card-body">
+        <div *ngFor="let child of children">
+            <app-idea [idea]="child"></app-idea>
+        </div>
     </div>
 </div>
     

@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Idea } from 'src/model/idea';
+import { IdeaService } from 'src/services/idea.service';
 
 @Component({
   selector: 'app-idea',
@@ -8,10 +9,23 @@ import { Idea } from 'src/model/idea';
 })
 export class IdeaComponent implements OnInit {
   @Input() idea?: Idea;
+  showChildren?: boolean = false;
+  children?: Array<Idea>;
 
-  constructor() { }
+  constructor(private ideaService: IdeaService) {
+  }
 
   ngOnInit(): void {
   }
 
+  clickShowChildren(): void {
+    if (this.idea) {
+      this.showChildren = !this.showChildren;
+      if (this.showChildren){
+        this.ideaService.getForParent(this.idea).then((ideas) => {
+          this.children = ideas
+        });
+      }
+    }
+  }
 }
