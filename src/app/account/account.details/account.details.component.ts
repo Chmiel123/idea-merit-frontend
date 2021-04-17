@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AccountLogin } from 'src/model/account-login';
 import { LoginService } from 'src/services/login.service';
 import { timer } from 'rxjs';
-import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { AlertService } from 'src/services/alert.service';
@@ -46,7 +46,7 @@ export class AccountDetailsComponent implements OnInit {
   open(content: any) {
     this.resetAddEmailModal();
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result: any) => {
-      console.log(this.addEmailForm.valid);
+      //console.log(this.addEmailForm.valid);
       if (this.addEmailForm.valid) {
         this.onSubmit();
       }

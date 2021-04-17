@@ -7,12 +7,15 @@
             <button class="btn btn-secondary" (click)="clickShowChildren()">{{ showChildren == true ? '-' : '+' }}</button>
             <span *ngIf="!showChildren" class="btn" (click)="clickShowChildren()">{{ idea.total_children }} subideas</span>
         </div>
+        <div *ngIf="loginService.loginValue" class="float-right">
+            <button class="btn btn-primary" (click)="createIdea()">Create</button>
+        </div>
         <div *ngIf="showChildren" class="float-center">
             <div *ngIf="loading" class="text-center">
                 <img src = "assets/puff.svg" />
             </div>
             <div *ngFor="let child of children">
-                <app-idea [idea]="child"></app-idea>
+                <app-idea [idea]="child" (create-idea)=createIdea($event)></app-idea>
             </div>
         </div>
     </div>
