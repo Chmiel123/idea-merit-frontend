@@ -9,8 +9,9 @@ import { IdeaService } from 'src/services/idea.service';
 })
 export class IdeaComponent implements OnInit {
   @Input() idea?: Idea;
-  showChildren?: boolean = false;
+  showChildren: boolean = false;
   children?: Array<Idea>;
+  loading: boolean;
 
   constructor(private ideaService: IdeaService) {
   }
@@ -22,8 +23,13 @@ export class IdeaComponent implements OnInit {
     if (this.idea) {
       this.showChildren = !this.showChildren;
       if (this.showChildren){
+        console.log(this);
+        if (!this.children) {
+          this.loading = true;
+        }
         this.ideaService.getForParent(this.idea).then((ideas) => {
-          this.children = ideas
+          this.children = ideas;
+          this.loading = false;
         });
       }
     }

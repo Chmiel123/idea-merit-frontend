@@ -12,6 +12,8 @@ export class Idea {
   total_life_direct: number;
   total_life_inherited: number;
 
+  total_children: number;
+
   constructor(
     id: string,
     parent_id: string,
@@ -21,7 +23,8 @@ export class Idea {
     created_date: Date,
     end_of_life: Date,
     total_life_direct: number,
-    total_life_inherited: number
+    total_life_inherited: number,
+    total_children: number
   ) {
     this.id = id;
     this.parent_id = parent_id;
@@ -32,6 +35,7 @@ export class Idea {
     this.end_of_life = end_of_life;
     this.total_life_direct = total_life_direct;
     this.total_life_inherited = total_life_inherited;
+    this.total_children = total_children;
   }
 
   static parse(plain: any): Idea {
@@ -44,7 +48,8 @@ export class Idea {
       plain.created_date,
       plain.end_of_life,
       plain.total_life_direct,
-      plain.total_life_inherited
+      plain.total_life_inherited,
+      plain.total_children
     );
     return result;
   }

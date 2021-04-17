@@ -3,12 +3,17 @@
     <h4 class="card-header">{{idea?.name}}</h4>
     <div class="card-body">
         <p>{{idea?.content}}</p>
-        <button class="btn" (click)="clickShowChildren()">Expand subideas</button>
-    </div>
-    <div *ngIf="showChildren" class="card-body">
-        <div *ngFor="let child of children">
-            <app-idea [idea]="child"></app-idea>
+        <div *ngIf="idea.total_children > 0" class="float-left">
+            <button class="btn btn-secondary" (click)="clickShowChildren()">{{ showChildren == true ? '-' : '+' }}</button>
+            <span *ngIf="!showChildren" class="btn" (click)="clickShowChildren()">{{ idea.total_children }} subideas</span>
+        </div>
+        <div *ngIf="showChildren" class="float-center">
+            <div *ngIf="loading" class="text-center">
+                <img src = "assets/puff.svg" />
+            </div>
+            <div *ngFor="let child of children">
+                <app-idea [idea]="child"></app-idea>
+            </div>
         </div>
     </div>
 </div>
-    
