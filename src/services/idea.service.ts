@@ -46,6 +46,14 @@ export class IdeaService {
         });
     }
 
+    createIdea(parent_id: string, name: string, content: string, initial_resource: number) {
+        return this.http.post<any>(`${environment.apiUrl}/idea`, { parent_id, name, content, initial_resource });
+    }
+
+    async updateIdeaInfo() {
+        this.getRoots();
+    }
+
     // async updateAccountInfo() {
     //     let currentAccount$ = this.http.get<any>(`${environment.apiUrl}/account/current`);
     //     let emails$ = this.http.get<any>(`${environment.apiUrl}/account/email`);

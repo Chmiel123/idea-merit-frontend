@@ -13,22 +13,25 @@
                     [ngClass]="{ 'is-invalid': createIdeaSubmitted && createIdeaForm.controls.title.errors }" />
                 
                 <label for="content">Content</label>
-                <textarea type="text" formControlName="content" class="form-control"
+                <textarea type="text" formControlName="content" class="form-control" rows="10"
                     [ngClass]="{ 'is-invalid': createIdeaSubmitted && createIdeaForm.controls.content.errors }" ></textarea>
                 <div *ngIf="createIdeaSubmitted && createIdeaForm.controls.content.errors" class="invalid-feedback">
                     <div *ngIf="createIdeaForm.controls.content.errors.required">Content is required</div>
                 </div>
 
-                <label for="content">Initial life</label><br>
-                <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                    <label class="btn btn-secondary active">
-                      <input type="radio" name="options" id="option1" autocomplete="off" checked> 6 h
+                <label for="life">Initial life</label><br>
+                <div class="btn-group btn-group-toggle">
+                    <label class="btn btn-secondary" [ngClass]="{'btn-success': createIdeaForm.value.life == 6, 'btn-secondary': createIdeaForm.value.life != 6}">
+                      <input formControlName="life" type="radio" value="6" name="life" checked="checked">6 h
+                    </label>
+                    <label class="btn btn-secondary" [ngClass]="{'btn-success': createIdeaForm.value.life == 24, 'btn-secondary': createIdeaForm.value.life != 24}">
+                      <input formControlName="life" type="radio" value="24" name="life">1 d
+                    </label>
+                    <label class="btn btn-secondary" [ngClass]="{'btn-success': createIdeaForm.value.life == 72, 'btn-secondary': createIdeaForm.value.life != 72}">
+                      <input formControlName="life" type="radio" value="72" name="life">3 d
                     </label>
                     <label class="btn btn-secondary">
-                      <input type="radio" name="options" id="option2" autocomplete="off">1 d
-                    </label>
-                    <label class="btn btn-secondary">
-                      <input type="radio" name="options" id="option3" autocomplete="off">3 d
+                        <input type="number" formControlName="customLife" class="form-control">
                     </label>
                   </div>
             </div>
