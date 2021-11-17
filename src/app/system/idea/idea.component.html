@@ -1,16 +1,21 @@
 
 <div *ngIf="idea" class="card">
-    <h4 class="card-header">{{idea?.name}}</h4>
+    <div class="card-header">
+        <h4 class="float-left">{{idea?.name}}</h4>
+        <span class="badge badge-secondary float-right">{{resource_remaining | TimeResource}}</span>
+    </div>
     <div class="card-body">
         <p>{{idea?.content}}</p>
-        <div *ngIf="idea.total_children > 0" class="float-left">
-            <button class="btn btn-secondary" (click)="clickShowChildren()">{{ showChildren == true ? '-' : '+' }}</button>
-            <span *ngIf="!showChildren" class="btn" (click)="clickShowChildren()">{{ idea.total_children }} subideas</span>
+        <div class="row">
+            <div *ngIf="idea.total_children > 0" class="float">
+                <button class="btn btn-secondary" (click)="clickShowChildren()">{{ showChildren == true ? '-' : '+' }}</button>
+                <span *ngIf="!showChildren" class="btn" (click)="clickShowChildren()">{{ idea?.total_children }} posts</span>
+            </div>
+            <div *ngIf="loginService.loginValue" class="float">
+                <button class="btn btn-primary" (click)="createIdea()">Post</button>
+            </div>
         </div>
-        <div *ngIf="loginService.loginValue" class="float-right">
-            <button class="btn btn-primary" (click)="createIdea()">Create</button>
-        </div>
-        <div *ngIf="showChildren" class="float-center card">
+        <div *ngIf="showChildren" style="margin-left: 1em;" class="row card">
             <div *ngIf="loading" class="text-center">
                 <img src = "assets/puff.svg" />
             </div>

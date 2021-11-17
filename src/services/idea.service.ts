@@ -31,7 +31,10 @@ export class IdeaService {
     getRoots() {
         return this.http.get<any>(`${environment.apiUrl}/idea`)
             .subscribe(data => {
-                let ideas: Array<Idea> = data;
+                let ideas: Array<Idea> = [];
+                (data as Array<any>).forEach(element => {
+                    ideas.push(Idea.parse(element));
+                });
                 this.ideaSubject.next(ideas);
             });
     }
@@ -40,7 +43,10 @@ export class IdeaService {
         return new Promise((resolve, reject) =>{
             this.http.get<any>(`${environment.apiUrl}/idea?parent_id=${idea.id}`)
                 .subscribe(data => {
-                    let ideas: Array<Idea> = data;
+                    let ideas: Array<Idea> = [];
+                    (data as Array<any>).forEach(element => {
+                        ideas.push(Idea.parse(element));
+                    });
                     resolve(ideas);
                 });
         });

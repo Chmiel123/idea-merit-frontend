@@ -37,6 +37,12 @@ export class Idea {
     this.total_life_inherited = total_life_inherited;
     this.total_children = total_children;
   }
+  
+  resource_remaining() {
+    let time = 0.0;
+    time = (this.end_of_life.getTime() - new Date().getTime())  / 1000.0 / 60.0 / 60.0;
+    return time;
+  }
 
   static parse(plain: any): Idea {
     const result = new Idea(
@@ -45,8 +51,8 @@ export class Idea {
       plain.author_id,
       plain.name,
       plain.content,
-      plain.created_date,
-      plain.end_of_life,
+      new Date(plain.created_date),
+      new Date(plain.end_of_life),
       plain.total_life_direct,
       plain.total_life_inherited,
       plain.total_children

@@ -46,7 +46,7 @@
 
 <div class="p-4">
     <div class="container">
-        <h2 >Ideas</h2>
+        <h2 >Root Posts</h2>
         <div *ngFor="let idea of ideas">
             <app-idea [idea]="idea" (create-idea)="createIdea($event, createIdeaModal)"></app-idea>
         </div>

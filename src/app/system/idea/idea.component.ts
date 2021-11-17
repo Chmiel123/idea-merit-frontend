@@ -2,6 +2,8 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { Idea } from 'src/model/idea';
 import { IdeaService } from 'src/services/idea.service';
 import { LoginService } from 'src/services/login.service';
+import { timer } from 'rxjs';
+import { Account } from 'src/model/account';
 
 @Component({
   selector: 'app-idea',
@@ -13,11 +15,15 @@ export class IdeaComponent implements OnInit {
   showChildren: boolean = false;
   children?: Array<Idea>;
   loading: boolean;
+  resource_remaining: number | undefined;
   @Output('create-idea') createIdeaEvent: EventEmitter<Idea> = new EventEmitter<Idea>();
 
   constructor(
-    private ideaService: IdeaService,
-    public loginService: LoginService) {
+      private ideaService: IdeaService,
+      public loginService: LoginService) {
+    timer(0,1000).subscribe(() => {
+      this.resource_remaining = this.idea?.resource_remaining();
+    });
   }
 
   ngOnInit(): void {
