@@ -38,6 +38,17 @@ export class Idea {
     this.total_children = total_children;
   }
   
+  is_alive() {
+    if (this.parent_id == null) {
+      return true;
+    }
+    return (this.end_of_life.getTime() > new Date().getTime());
+  }
+
+  is_root() {
+    return this.parent_id == null;
+  }
+
   resource_remaining() {
     let time = 0.0;
     time = (this.end_of_life.getTime() - new Date().getTime())  / 1000.0 / 60.0 / 60.0;

@@ -16,7 +16,8 @@ export class IdeaComponent implements OnInit {
   children?: Array<Idea>;
   loading: boolean;
   resource_remaining: number | undefined;
-  is_alive: boolean;
+  is_alive: boolean | undefined;
+  is_root: boolean | undefined;
   @Output('create-idea') createIdeaEvent: EventEmitter<Idea> = new EventEmitter<Idea>();
 
   constructor(
@@ -24,14 +25,9 @@ export class IdeaComponent implements OnInit {
       public loginService: LoginService) {
     this.is_alive = true;
     timer(0,1000).subscribe(() => {
-      let resource = this.idea?.resource_remaining();
-      if (resource && resource < 0) {
-        if (this.idea?.parent_id != null) {
-          this.is_alive = false;
-        }
-      } else {
-        this.resource_remaining = resource;
-      }
+      this.is_alive = this.idea?.is_alive();
+      this.is_root = this.idea?.is_root();
+      this.resource_remaining = this.idea?.resource_remaining();
     });
   }
 

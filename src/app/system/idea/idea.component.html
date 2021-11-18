@@ -2,7 +2,7 @@
 <div *ngIf="idea" class="card">
     <div class="card-header">
         <h4 class="float-left">{{idea?.name}}</h4>
-        <span *ngIf="is_alive" class="badge badge-secondary float-right">{{resource_remaining | TimeResource}}</span>
+        <span *ngIf="!is_root && is_alive" class="badge badge-secondary float-right">{{resource_remaining | TimeResource}}</span>
         <span *ngIf="!is_alive" class="badge badge-secondary float-right">Dead post</span>
     </div>
     <div class="card-body">
