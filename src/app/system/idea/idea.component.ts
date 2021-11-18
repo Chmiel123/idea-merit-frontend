@@ -16,13 +16,22 @@ export class IdeaComponent implements OnInit {
   children?: Array<Idea>;
   loading: boolean;
   resource_remaining: number | undefined;
+  is_alive: boolean;
   @Output('create-idea') createIdeaEvent: EventEmitter<Idea> = new EventEmitter<Idea>();
 
   constructor(
       private ideaService: IdeaService,
       public loginService: LoginService) {
+    this.is_alive = true;
     timer(0,1000).subscribe(() => {
-      this.resource_remaining = this.idea?.resource_remaining();
+      let resource = this.idea?.resource_remaining();
+      if (resource && resource < 0) {
+        if (this.idea?.parent_id != null) {
+          this.is_alive = false;
+        }
+      } else {
+        this.resource_remaining = resource;
+      }
     });
   }
 
