@@ -31,7 +31,6 @@ export class AccountDetailsComponent implements OnInit {
     private alertService: AlertService
   ) {
     this.accountLogin = this.accountLoginService.loginValue;
-    console.log(this.accountLogin);
     timer(0, 1000).subscribe(() => {
       this.resource = this.accountLogin?.account?.available_resource();
     });
@@ -46,7 +45,6 @@ export class AccountDetailsComponent implements OnInit {
   open(content: any) {
     this.resetAddEmailModal();
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result: any) => {
-      //console.log(this.addEmailForm.valid);
       if (this.addEmailForm.valid) {
         this.onSubmit();
       }

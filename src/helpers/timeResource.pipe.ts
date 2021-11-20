@@ -47,7 +47,6 @@ export class TimeResourcePipe {
     }
 
     reverse_transform(text: String): number {
-        console.log(text);
         let matches = text.match(/\d+/gi);
         let number = 0;
         if (matches) {

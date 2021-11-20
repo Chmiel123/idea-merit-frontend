@@ -20,6 +20,7 @@ export class HomeComponent implements OnInit {
   createIdeaForm: FormGroup;
   createIdeaLoading = false;
   createIdeaSubmitted = false;
+  selected_time: number | undefined;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -35,13 +36,15 @@ export class HomeComponent implements OnInit {
     this.createIdeaForm = this.formBuilder.group({
       title: '',
       content: ['', Validators.required],
-      life: '',
-      customLife: ''
     });
   }
 
+  setTime(time: number | undefined) {
+    this.selected_time = time;
+  }
+
   createIdea(idea: Idea, content: any) {
-    console.log("create subidea of: "+idea.name);
+    this.createIdeaForm.reset();
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result: any) => {
       this.parent_idea = idea;
       if (this.createIdeaForm.valid) {
@@ -55,20 +58,12 @@ export class HomeComponent implements OnInit {
 
   onSubmit() {
     this.createIdeaSubmitted = true;
-    console.log(this.createIdeaForm);
 
-    // stop here if form is invalid
-    if (this.createIdeaForm.invalid) {
+    if (this.createIdeaForm.invalid || this.selected_time == undefined) {
       return;
     }
-    //TODO: create idea
-    let initial_resource = 0;
-    if (this.createIdeaForm.controls.customLife.value) {
-      initial_resource = this.createIdeaForm.controls.customLife.value;
-    } else {
-      initial_resource = this.createIdeaForm.controls.life.value;
-    }
-    this.ideaService.createIdea(this.parent_idea.id, this.createIdeaForm.controls.title.value, this.createIdeaForm.controls.content.value, initial_resource)
+
+    this.ideaService.createIdea(this.parent_idea.id, this.createIdeaForm.controls.title.value, this.createIdeaForm.controls.content.value, this.selected_time)
       .pipe(first())
       .subscribe(
         (data: any) => {

@@ -20,20 +20,7 @@
                 </div>
 
                 <label for="life">Initial life</label><br>
-                <div class="btn-group btn-group-toggle">
-                    <label class="btn btn-secondary" [ngClass]="{'btn-success': createIdeaForm.value.life == 6, 'btn-secondary': createIdeaForm.value.life != 6}">
-                      <input formControlName="life" type="radio" value="6" name="life" checked="checked">6 h
-                    </label>
-                    <label class="btn btn-secondary" [ngClass]="{'btn-success': createIdeaForm.value.life == 24, 'btn-secondary': createIdeaForm.value.life != 24}">
-                      <input formControlName="life" type="radio" value="24" name="life">1 d
-                    </label>
-                    <label class="btn btn-secondary" [ngClass]="{'btn-success': createIdeaForm.value.life == 72, 'btn-secondary': createIdeaForm.value.life != 72}">
-                      <input formControlName="life" type="radio" value="72" name="life">3 d
-                    </label>
-                    <label class="btn btn-secondary">
-                        <input type="number" formControlName="customLife" class="form-control">
-                    </label>
-                </div>
+                <select-time buttons="1,2,6,12,24,48,72" (time)="setTime($event)"></select-time>
             </div>
         </form>
     </div>

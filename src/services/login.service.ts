@@ -79,11 +79,8 @@ export class LoginService {
     }
 
     refresh() {
-        console.log('refresh started.');
         this.http.get<any>(`${environment.apiUrl}/account/refresh`).subscribe(
             (data: any) => {
-                console.log('refresh done.');
-                console.log(data);
                 let accountLogin = this.loginSubject.value;
                 if (accountLogin) {
                     accountLogin.access_token = data.access_token;
