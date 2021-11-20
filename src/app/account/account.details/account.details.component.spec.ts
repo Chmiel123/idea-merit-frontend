@@ -1,5 +1,6 @@
 import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TimeResourcePipe } from 'src/helpers/timeResource.pipe';
 
@@ -17,7 +18,8 @@ describe('Account.DetailsComponent', () => {
       ],
       imports: [
         RouterModule.forRoot([]),
-        HttpClientModule
+        HttpClientModule,
+        ReactiveFormsModule
       ],
     })
       .compileComponents();

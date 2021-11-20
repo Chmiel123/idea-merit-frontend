@@ -69,5 +69,6 @@ export class IdeaComponent implements OnInit {
   }
   like() {
     this.showLike = false;
+    //this.ideaService.vote(this.selected_time);
   }
 }

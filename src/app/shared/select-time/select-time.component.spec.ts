@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { SharedModule } from 'src/app/shared.module';
 
 import { SelectTimeComponent } from './select-time.component';
 
@@ -8,7 +9,10 @@ describe('SelectTimeComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SelectTimeComponent ]
+      declarations: [ SelectTimeComponent ],
+      imports: [
+        SharedModule
+      ]
     })
     .compileComponents();
   });
@@ -16,6 +20,7 @@ describe('SelectTimeComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(SelectTimeComponent);
     component = fixture.componentInstance;
+    component.buttons = "1,2,3,4";
     fixture.detectChanges();
   });
 
