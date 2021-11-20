@@ -4,6 +4,8 @@ import { IdeaService } from 'src/services/idea.service';
 import { LoginService } from 'src/services/login.service';
 import { timer } from 'rxjs';
 import { Account } from 'src/model/account';
+import { first } from 'rxjs/operators';
+import { AlertService } from 'src/services/alert.service';
 
 @Component({
   selector: 'app-idea',
@@ -26,7 +28,8 @@ export class IdeaComponent implements OnInit {
 
   constructor(
       private ideaService: IdeaService,
-      public loginService: LoginService) {
+      public loginService: LoginService,
+      private alertService: AlertService) {
     this.is_alive = true;
     timer(0,1000).subscribe(() => {
       this.is_alive = this.idea?.is_alive();
@@ -68,7 +71,24 @@ export class IdeaComponent implements OnInit {
     this.showLike = !this.showLike;
   }
   like() {
+    if (this.idea == null || this.selected_time == null) {
+      return;
+    }
     this.showLike = false;
-    //this.ideaService.vote(this.selected_time);
+    this.ideaService.vote(this.idea?.id, this.selected_time)
+    .pipe(first())
+    .subscribe(
+      (data: any) => {
+        if (data.status === "Ok") {
+          this.alertService.success(data.message, { keepAfterRouteChange: true });
+          this.ideaService.updateIdeaInfo();
+          //TODO: update idea info
+        } else if (data.status === "Error") {
+          this.alertService.error(data.message);
+        }
+      },
+      error => {
+        this.alertService.error(error);
+      });
   }
 }

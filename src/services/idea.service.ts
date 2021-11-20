@@ -60,6 +60,10 @@ export class IdeaService {
         this.getRoots();
     }
 
+    vote(idea_id: string, resource: number) {
+        return this.http.post<any>(`${environment.apiUrl}/idea/vote`, { idea_id, resource });
+    }
+
     // async updateAccountInfo() {
     //     let currentAccount$ = this.http.get<any>(`${environment.apiUrl}/account/current`);
     //     let emails$ = this.http.get<any>(`${environment.apiUrl}/account/email`);
