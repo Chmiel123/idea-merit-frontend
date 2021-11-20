@@ -95,7 +95,7 @@ export class LoginService {
                 this.startRefreshTokenTimer();
             },
             error => {
-              this.alertService.error(error);
+              this.logout();
             });
     }
 

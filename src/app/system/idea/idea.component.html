@@ -12,9 +12,16 @@
                 <button class="btn btn-secondary" (click)="clickShowChildren()">{{ showChildren == true ? '-' : '+' }}</button>
                 <span *ngIf="!showChildren" class="btn" (click)="clickShowChildren()">{{ idea?.total_children }} posts</span>
             </div>
+            <div >
+                <button class="btn btn-secondary" type="button" (click)="toggleLike()">Like</button>
+            </div>
             <div *ngIf="loginService.loginValue" class="float">
                 <button class="btn btn-primary" (click)="createIdea()">Post</button>
             </div>
+        </div>
+        <div *ngIf="showLike" style="margin-left: 1em;" class="row card">
+            <select-time buttons="1,2,6,12,24,48,72" (time)="setTime($event)"></select-time>
+            <button class="btn btn-primary" (click)="like()">Send like!</button>
         </div>
         <div *ngIf="showChildren" style="margin-left: 1em;" class="row card">
             <div *ngIf="loading" class="text-center">

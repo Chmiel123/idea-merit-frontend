@@ -13,11 +13,15 @@ import { Account } from 'src/model/account';
 export class IdeaComponent implements OnInit {
   @Input() idea?: Idea;
   showChildren: boolean = false;
+  showLike: boolean = false;
   children?: Array<Idea>;
   loading: boolean;
   resource_remaining: number | undefined;
   is_alive: boolean | undefined;
   is_root: boolean | undefined;
+  
+  like_expanded: boolean;
+  selected_time: number | undefined;
   @Output('create-idea') createIdeaEvent: EventEmitter<Idea> = new EventEmitter<Idea>();
 
   constructor(
@@ -55,5 +59,15 @@ export class IdeaComponent implements OnInit {
     } else {
       this.createIdeaEvent.emit(this.idea);
     }
+  }
+
+  setTime(time: number | undefined) {
+    this.selected_time = time;
+  }
+  toggleLike() {
+    this.showLike = !this.showLike;
+  }
+  like() {
+    this.showLike = false;
   }
 }
