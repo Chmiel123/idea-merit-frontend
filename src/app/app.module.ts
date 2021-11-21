@@ -11,7 +11,6 @@ import { HomeComponent } from './home/home/home.component';
 
 import { JwtInterceptor } from 'src/helpers/jwt.interceptor';
 import { ErrorInterceptor } from 'src/helpers/error.interceptor';
-import { TimeResourcePipe } from 'src/helpers/timeResource.pipe';
 import { SharedModule } from './shared.module';
 import { IdeaComponent } from './system/idea/idea.component';
 

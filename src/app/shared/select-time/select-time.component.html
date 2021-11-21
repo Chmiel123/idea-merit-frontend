@@ -1,8 +1,6 @@
-<div class="btn-group btn-group-toggle">
-    <div *ngFor="let button of buttons_objs" >
-        <button class="btn btn-secondary" [ngClass]="{'btn-success': button.is_selected, 'btn-secondary': !button.is_selected}" (click)="clicked(button)">
-            {{button.time | TimeResource}}
-        </button>
-    </div>
+<div class="btn-group">
+    <button *ngFor="let button of buttons_objs" class="btn btn-secondary" [ngClass]="{'btn-success': button.is_selected, 'btn-secondary': !button.is_selected}" (click)="clicked(button)">
+        {{button.time | TimeResource}}
+    </button>
     <input class="btn btn-secondary" [ngClass]="{'btn-success': is_custom_time_selected, 'btn-secondary': !is_custom_time_selected}" type="text" placeholder="Custom" class="form-control" (change)="changeCustomTime($event)" style="padding-left: 1em;"/>
 </div>
