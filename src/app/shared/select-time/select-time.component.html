@@ -2,5 +2,5 @@
     <button *ngFor="let button of buttons_objs" class="btn btn-secondary" [ngClass]="{'btn-success': button.is_selected, 'btn-secondary': !button.is_selected}" (click)="clicked(button)">
         {{button.time | TimeResource}}
     </button>
-    <input class="btn btn-secondary" [ngClass]="{'btn-success': is_custom_time_selected, 'btn-secondary': !is_custom_time_selected}" type="text" placeholder="Custom" class="form-control" (change)="changeCustomTime($event)" style="padding-left: 1em;"/>
+    <input class="btn btn-secondary" [ngClass]="{'btn-success': is_custom_time_selected, 'btn-secondary': !is_custom_time_selected}" type="text" placeholder="Custom" class="form-control" (change)="changeCustomTime($event)" style="padding-left: 1em; border-top-left-radius: 0; border-bottom-left-radius: 0;"/>
 </div>
