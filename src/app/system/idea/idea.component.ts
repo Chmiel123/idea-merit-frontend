@@ -8,6 +8,7 @@ import { first } from 'rxjs/operators';
 import { AlertService } from 'src/services/alert.service';
 import { environment } from 'src/environments/environment';
 import { AccountService } from 'src/services/account.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-idea',
@@ -37,7 +38,8 @@ export class IdeaComponent implements OnInit {
       private ideaService: IdeaService,
       public loginService: LoginService,
       private accountService: AccountService,
-      private alertService: AlertService) {
+      private alertService: AlertService,
+      private router: Router) {
     this.accountService.accountsObservable.subscribe(x =>  {
       if (this.idea && x) {
         this.author = x[this.idea?.author_id];
@@ -62,6 +64,10 @@ export class IdeaComponent implements OnInit {
     if (this.idea) {
       this.accountService.get(this.idea?.author_id);
     }
+  }
+
+  navigateToPost(idea: Idea) {
+    this.router.navigate(['idea', idea.id]);
   }
 
   expandContent() {
@@ -94,9 +100,11 @@ export class IdeaComponent implements OnInit {
   setTime(time: number | undefined) {
     this.selected_time = time;
   }
+
   toggleLike() {
     this.showLike = !this.showLike;
   }
+
   like() {
     if (this.idea == null || this.selected_time == null) {
       return;

@@ -1,10 +1,10 @@
 
 <div *ngIf="idea" class="card">
-    <div class="card-header">
-        <h4 class="float-left"><a>{{idea?.name}}</a></h4>
+    <a (click)="navigateToPost(idea)" class="card-header">
+        <h4 class="float-left text-secondary">{{idea?.name}}</h4>
         <span *ngIf="!is_root && is_alive" class="badge badge-secondary float-right">{{resource_remaining | TimeResource}}</span>
         <span *ngIf="!is_alive" class="badge badge-secondary float-right">Dead post</span>
-    </div>
+    </a>
     <div class="card-body">
         <p *ngIf="!content_expanded">{{shortened_content}} ... <a (click)=expandContent() class="text-primary">[Show more]</a></p>
         <p *ngIf="content_expanded">{{idea?.content}}</p>
@@ -19,7 +19,7 @@
             <div *ngIf="loginService.loginValue" class="float">
                 <button class="btn btn-primary" (click)="createIdea()">Post</button>
             </div>
-            <div>
+            <div *ngIf="!is_root">
                 <span class="btn" >Author: {{author?.name || idea?.author_id}}</span>
             </div>
         </div>

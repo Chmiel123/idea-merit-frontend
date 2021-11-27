@@ -39,6 +39,15 @@ export class IdeaService {
             });
     }
 
+    getById(id: string) {
+        return this.http.get<any>(`${environment.apiUrl}/idea?id=${id}`)
+        .subscribe(data => {
+            let ideas: Array<Idea> = [];
+            ideas.push(Idea.parse(data))
+            this.ideaSubject.next(ideas);
+        });
+    }
+
     getForParent(idea: Idea): Promise<any> {
         return new Promise((resolve, reject) =>{
             this.http.get<any>(`${environment.apiUrl}/idea?parent_id=${idea.id}`)

@@ -14,6 +14,7 @@ import { ErrorInterceptor } from 'src/helpers/error.interceptor';
 import { SharedModule } from './shared.module';
 import { IdeaComponent } from './system/idea/idea.component';
 import { AboutComponent } from './home/about/about.component';
+import { IdeaPageComponent } from './home/idea-page/idea-page.component';
 
 @NgModule({
   imports: [
@@ -29,7 +30,8 @@ import { AboutComponent } from './home/about/about.component';
     HomeComponent,
     AlertComponent,
     IdeaComponent,
-    AboutComponent
+    AboutComponent,
+    IdeaPageComponent
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
