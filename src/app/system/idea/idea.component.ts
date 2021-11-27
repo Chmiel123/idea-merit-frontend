@@ -6,6 +6,7 @@ import { timer } from 'rxjs';
 import { Account } from 'src/model/account';
 import { first } from 'rxjs/operators';
 import { AlertService } from 'src/services/alert.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-idea',
@@ -22,6 +23,9 @@ export class IdeaComponent implements OnInit {
   is_alive: boolean | undefined;
   is_root: boolean | undefined;
   
+  content_expanded: boolean;
+  shortened_content: string;
+
   like_expanded: boolean;
   selected_time: number | undefined;
   @Output('create-idea') createIdeaEvent: EventEmitter<Idea> = new EventEmitter<Idea>();
@@ -39,6 +43,17 @@ export class IdeaComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    let split_content = this.idea?.content.split(" ");
+    if (split_content && split_content?.length > environment.ui.idea_content_collapsed_words) {
+      this.content_expanded = false;
+      this.shortened_content = split_content?.slice(0, environment.ui.idea_content_collapsed_words).join(" ") || "";
+    } else {
+      this.content_expanded = true;
+    }
+  }
+  
+  expandContent() {
+    this.content_expanded = true;
   }
 
   clickShowChildren(): void {

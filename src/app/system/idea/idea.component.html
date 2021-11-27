@@ -1,18 +1,19 @@
 
 <div *ngIf="idea" class="card">
     <div class="card-header">
-        <h4 class="float-left">{{idea?.name}}</h4>
+        <h4 class="float-left"><a>{{idea?.name}}</a></h4>
         <span *ngIf="!is_root && is_alive" class="badge badge-secondary float-right">{{resource_remaining | TimeResource}}</span>
         <span *ngIf="!is_alive" class="badge badge-secondary float-right">Dead post</span>
     </div>
     <div class="card-body">
-        <p>{{idea?.content}}</p>
+        <p *ngIf="!content_expanded">{{shortened_content}} ... <a (click)=expandContent() class="text-primary">[Show more]</a></p>
+        <p *ngIf="content_expanded">{{idea?.content}}</p>
         <div class="row">
             <div *ngIf="idea.total_children > 0" class="float">
                 <button class="btn btn-secondary" (click)="clickShowChildren()">{{ showChildren == true ? '-' : '+' }}</button>
                 <span *ngIf="!showChildren" class="btn" (click)="clickShowChildren()">{{ idea?.total_children }} posts</span>
             </div>
-            <div *ngIf="!is_root">
+            <div *ngIf="loginService.loginValue && !is_root">
                 <button class="btn btn-secondary" type="button" (click)="toggleLike()">Vote</button>
             </div>
             <div *ngIf="loginService.loginValue" class="float">
