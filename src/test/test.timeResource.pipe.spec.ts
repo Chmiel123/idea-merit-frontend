@@ -28,4 +28,12 @@ describe('TimeResourcePipe', () => {
         expect(pipe.transform(1.5 / 60).trim()).toBe('1m 30s');
     });
 
+    it('reverse transforms "10 h" to "10"', () => {
+        expect(pipe.reverse_transform("10h")).toBe(10);
+    });
+
+    it('reverse transforms "30 m" to "0.5"', () => {
+        expect(pipe.reverse_transform("30 m")).toBe(0.5);
+    });
+
 });
