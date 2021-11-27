@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CreateIdeaComponent } from 'src/app/shared/create-idea/create-idea.component';
+import { IdeaComponent } from 'src/app/system/idea/idea.component';
 import { Idea } from 'src/model/idea';
 import { AlertService } from 'src/services/alert.service';
 import { IdeaService } from 'src/services/idea.service';
@@ -12,7 +13,7 @@ import { IdeaService } from 'src/services/idea.service';
   styleUrls: ['./idea-page.component.css']
 })
 export class IdeaPageComponent implements OnInit {
-  idea: Idea;
+  idea: Idea | undefined;
   @ViewChild(CreateIdeaComponent) createIdeaComponent: CreateIdeaComponent;
 
   constructor(
@@ -32,6 +33,10 @@ export class IdeaPageComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.ideaService.ideaObservable.subscribe(ideas => this.idea = ideas[0]);
+    this.ideaService.ideaObservable.subscribe(idea => {
+      if (idea) {
+        this.idea = idea;
+      }
+    });
   }
 }
