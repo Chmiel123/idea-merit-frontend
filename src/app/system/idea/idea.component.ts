@@ -7,6 +7,7 @@ import { Account } from 'src/model/account';
 import { first } from 'rxjs/operators';
 import { AlertService } from 'src/services/alert.service';
 import { environment } from 'src/environments/environment';
+import { AccountService } from 'src/services/account.service';
 
 @Component({
   selector: 'app-idea',
@@ -26,6 +27,8 @@ export class IdeaComponent implements OnInit {
   content_expanded: boolean;
   shortened_content: string;
 
+  author: Account;
+
   like_expanded: boolean;
   selected_time: number | undefined;
   @Output('create-idea') createIdeaEvent: EventEmitter<Idea> = new EventEmitter<Idea>();
@@ -33,7 +36,13 @@ export class IdeaComponent implements OnInit {
   constructor(
       private ideaService: IdeaService,
       public loginService: LoginService,
+      private accountService: AccountService,
       private alertService: AlertService) {
+    this.accountService.accountsObservable.subscribe(x =>  {
+      if (this.idea && x) {
+        this.author = x[this.idea?.author_id];
+      }
+    });
     this.is_alive = true;
     timer(0,1000).subscribe(() => {
       this.is_alive = this.idea?.is_alive();
@@ -50,8 +59,11 @@ export class IdeaComponent implements OnInit {
     } else {
       this.content_expanded = true;
     }
+    if (this.idea) {
+      this.accountService.get(this.idea?.author_id);
+    }
   }
-  
+
   expandContent() {
     this.content_expanded = true;
   }

@@ -19,6 +19,9 @@
             <div *ngIf="loginService.loginValue" class="float">
                 <button class="btn btn-primary" (click)="createIdea()">Post</button>
             </div>
+            <div>
+                <span class="btn" >Author: {{author?.name || idea?.author_id}}</span>
+            </div>
         </div>
         <div *ngIf="showLike" style="margin-left: 1em;" class="row card">
             <select-time buttons="1,2,6,12,24,48,72" (time)="setTime($event)"></select-time>
