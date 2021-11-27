@@ -13,19 +13,24 @@ import { AlertService } from "./alert.service";
 @Injectable({ providedIn: 'root' })
 export class IdeaService {
 
-    private ideaSubject: BehaviorSubject<Array<Idea>>;
-    public ideaObservable: Observable<Array<Idea>>;
+    private ideaSubject: BehaviorSubject<Idea | null>;
+    public ideaObservable: Observable<Idea | null>;
+
+    private ideaArraySubject: BehaviorSubject<Array<Idea>>;
+    public ideaArrayObservable: Observable<Array<Idea>>;
 
     constructor(
         private http: HttpClient,
         private alertService: AlertService
     ) {
-        this.ideaSubject = new BehaviorSubject<Array<Idea>>([]);
+        this.ideaSubject = new BehaviorSubject<Idea | null>(null);
         this.ideaObservable = this.ideaSubject.asObservable();
+        this.ideaArraySubject = new BehaviorSubject<Array<Idea>>([]);
+        this.ideaArrayObservable = this.ideaArraySubject.asObservable();
     }
 
     public get ideaValue(): Array<Idea> {
-        return this.ideaSubject.value;
+        return this.ideaArraySubject.value;
     }
 
     getRoots() {
@@ -35,16 +40,15 @@ export class IdeaService {
                 (data as Array<any>).forEach(element => {
                     ideas.push(Idea.parse(element));
                 });
-                this.ideaSubject.next(ideas);
+                this.ideaArraySubject.next(ideas);
             });
     }
 
     getById(id: string) {
         return this.http.get<any>(`${environment.apiUrl}/idea?id=${id}`)
         .subscribe(data => {
-            let ideas: Array<Idea> = [];
-            ideas.push(Idea.parse(data))
-            this.ideaSubject.next(ideas);
+            let idea = Idea.parse(data);
+            this.ideaSubject.next(idea);
         });
     }
 

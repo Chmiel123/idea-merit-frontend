@@ -30,7 +30,7 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.ideaService.ideaObservable.subscribe(ideas => this.ideas = ideas);
+    this.ideaService.ideaArrayObservable.subscribe(ideas => this.ideas = ideas);
     this.ideaService.getRoots();
   }
 }

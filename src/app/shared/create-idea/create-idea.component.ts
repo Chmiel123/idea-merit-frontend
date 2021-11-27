@@ -36,8 +36,6 @@ export class CreateIdeaComponent implements OnInit {
   }
 
   createIdea(idea: Idea) {
-    console.log(idea);
-
     this.createIdeaForm.reset();
     this.modalService.open(this.createIdeaModal, { ariaLabelledBy: 'modal-basic-title' }).result.then((result: any) => {
       this.parent_idea = idea;

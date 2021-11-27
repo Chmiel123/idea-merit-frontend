@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import { Idea } from 'src/model/idea';
 import { IdeaService } from 'src/services/idea.service';
 import { LoginService } from 'src/services/login.service';
@@ -54,6 +54,7 @@ export class IdeaComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.showChildren = false;
     let split_content = this.idea?.content.split(" ");
     if (split_content && split_content?.length > environment.ui.idea_content_collapsed_words) {
       this.content_expanded = false;
@@ -62,10 +63,31 @@ export class IdeaComponent implements OnInit {
       this.content_expanded = true;
     }
     if (this.idea) {
-      this.accountService.get(this.idea?.author_id);
+      let author = this.accountService.get(this.idea?.author_id);
+      if (author) {
+        this.author = author;
+      }
     }
   }
-
+  
+  ngOnChanges(changes: SimpleChanges) {
+    //changes.idea.currentValue;
+    this.is_alive = true;
+    this.showChildren = false;
+    let split_content = this.idea?.content.split(" ");
+    if (split_content && split_content?.length > environment.ui.idea_content_collapsed_words) {
+      this.content_expanded = false;
+      this.shortened_content = split_content?.slice(0, environment.ui.idea_content_collapsed_words).join(" ") || "";
+    } else {
+      this.content_expanded = true;
+    }
+    if (this.idea) {
+      let author = this.accountService.get(this.idea?.author_id);
+      if (author) {
+        this.author = author;
+      }
+    }
+}
   navigateToPost(idea: Idea) {
     this.router.navigate(['idea', idea.id]);
   }
