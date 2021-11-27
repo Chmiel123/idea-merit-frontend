@@ -6,6 +6,7 @@
   <div class="navbar-nav ml-auto">
     <div class="container"><h4><span class="nav-item badge badge-success">{{resource | TimeResource}}</span></h4></div>
     <a class="nav-item nav-link" routerLink="/account/details" routerLinkActive="active">Account</a>
+    <a class="nav-item nav-link" routerLink="/about" routerLinkActive="active">About</a>
     <a class="nav-item nav-link" (click)="logout()">Logout</a>
   </div>
 </nav>
@@ -15,6 +16,7 @@
       [routerLinkActiveOptions]="{exact: true}">Home</a>
   </div>
   <div class="navbar-nav ml-auto">
+    <a class="nav-item nav-link" routerLink="/about" routerLinkActive="active">About</a>
     <a class="nav-item nav-link" routerLink="/account/login" routerLinkActive="active"
       [routerLinkActiveOptions]="{exact: true}">Login</a>
     <a class="nav-item nav-link" routerLink="/account/register" routerLinkActive="active"

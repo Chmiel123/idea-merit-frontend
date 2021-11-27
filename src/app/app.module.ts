@@ -13,6 +13,7 @@ import { JwtInterceptor } from 'src/helpers/jwt.interceptor';
 import { ErrorInterceptor } from 'src/helpers/error.interceptor';
 import { SharedModule } from './shared.module';
 import { IdeaComponent } from './system/idea/idea.component';
+import { AboutComponent } from './home/about/about.component';
 
 @NgModule({
   imports: [
@@ -27,7 +28,8 @@ import { IdeaComponent } from './system/idea/idea.component';
     AppComponent,
     HomeComponent,
     AlertComponent,
-    IdeaComponent
+    IdeaComponent,
+    AboutComponent
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
