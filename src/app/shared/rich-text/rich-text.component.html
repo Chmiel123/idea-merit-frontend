@@ -1,0 +1,6 @@
+<p *ngFor="let paragraph of spans">
+    <span *ngFor="let span of paragraph">
+        <a *ngIf="span.type == 'link'" href="{{span.link}}">{{span.text}}</a>
+        <span *ngIf="span.type == 'text'">{{span.text}}</span>
+    </span>
+</p>

@@ -5,6 +5,7 @@ import { TimeResourcePipe } from 'src/helpers/timeResource.pipe';
 import { SelectTimeComponent } from './shared/select-time/select-time.component';
 import { CreateIdeaComponent } from './shared/create-idea/create-idea.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RichTextComponent } from './shared/rich-text/rich-text.component';
 
 @NgModule({
   imports: [
@@ -15,13 +16,15 @@ import { ReactiveFormsModule } from '@angular/forms';
     TimeResourcePipe,
     AutofocusDirective,
     SelectTimeComponent,
-    CreateIdeaComponent
+    CreateIdeaComponent,
+    RichTextComponent
   ],
   exports: [
     TimeResourcePipe,
     AutofocusDirective,
     SelectTimeComponent,
-    CreateIdeaComponent
+    CreateIdeaComponent,
+    RichTextComponent
   ]
 })
 export class SharedModule {}
