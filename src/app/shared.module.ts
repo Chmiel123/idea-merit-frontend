@@ -6,6 +6,7 @@ import { SelectTimeComponent } from './shared/select-time/select-time.component'
 import { CreateIdeaComponent } from './shared/create-idea/create-idea.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RichTextComponent } from './shared/rich-text/rich-text.component';
+import { ParagraphedTextComponent } from './shared/paragraphed-text/paragraphed-text.component';
 
 @NgModule({
   imports: [
@@ -17,14 +18,16 @@ import { RichTextComponent } from './shared/rich-text/rich-text.component';
     AutofocusDirective,
     SelectTimeComponent,
     CreateIdeaComponent,
-    RichTextComponent
+    RichTextComponent,
+    ParagraphedTextComponent
   ],
   exports: [
     TimeResourcePipe,
     AutofocusDirective,
     SelectTimeComponent,
     CreateIdeaComponent,
-    RichTextComponent
+    RichTextComponent,
+    ParagraphedTextComponent
   ]
 })
 export class SharedModule {}

@@ -6,8 +6,8 @@
         <span *ngIf="!is_alive" class="badge badge-secondary float-right">Dead post</span>
     </a>
     <div class="card-body">
-        <p *ngIf="!content_expanded">{{shortened_content}} ... <a (click)=expandContent() class="text-primary">[Show more]</a></p>
-        <rich-text *ngIf="content_expanded" [text]="idea?.content"></rich-text>
+        <p *ngIf="!content_expanded"><rich-text [text]="shortened_content"></rich-text> ... <a (click)=expandContent() class="text-primary">[Show more]</a></p>
+        <paragraphed-text *ngIf="content_expanded" [text]="idea?.content"></paragraphed-text>
         <div class="row">
             <div *ngIf="idea.total_children > 0" class="float">
                 <button class="btn btn-secondary" (click)="clickShowChildren()">{{ showChildren == true ? '-' : '+' }}</button>
