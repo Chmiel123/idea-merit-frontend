@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { SharedModule } from 'src/app/shared.module';
 
 import { ParagraphedTextComponent } from './paragraphed-text.component';
 
@@ -8,7 +9,10 @@ describe('ParagraphedTextComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ParagraphedTextComponent ]
+      declarations: [ ParagraphedTextComponent ],
+      imports: [
+        SharedModule
+      ]
     })
     .compileComponents();
   });
