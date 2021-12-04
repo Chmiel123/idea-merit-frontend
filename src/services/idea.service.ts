@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { SelectMultipleControlValueAccessor } from "@angular/forms";
-import { BehaviorSubject, Observable } from "rxjs";
+import { BehaviorSubject, Observable, timer } from "rxjs";
 import { map } from "rxjs/operators";
 import { environment } from "src/environments/environment";
 import { Idea } from "src/model/idea";
@@ -19,6 +19,8 @@ export class IdeaService {
     private ideaArraySubject: BehaviorSubject<Array<Idea>>;
     public ideaArrayObservable: Observable<Array<Idea>>;
 
+    public updateTimerObservable: Observable<number>;
+
     constructor(
         private http: HttpClient,
         private alertService: AlertService
@@ -27,6 +29,7 @@ export class IdeaService {
         this.ideaObservable = this.ideaSubject.asObservable();
         this.ideaArraySubject = new BehaviorSubject<Array<Idea>>([]);
         this.ideaArrayObservable = this.ideaArraySubject.asObservable();
+        this.updateTimerObservable = timer(0,1000);
     }
 
     public get ideaValue(): Array<Idea> {

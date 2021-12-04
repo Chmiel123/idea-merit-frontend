@@ -2,7 +2,7 @@ import { Component, Input, OnInit, Output, EventEmitter, SimpleChanges } from '@
 import { Idea } from 'src/model/idea';
 import { IdeaService } from 'src/services/idea.service';
 import { LoginService } from 'src/services/login.service';
-import { timer } from 'rxjs';
+import { Subscription, timer } from 'rxjs';
 import { Account } from 'src/model/account';
 import { first } from 'rxjs/operators';
 import { AlertService } from 'src/services/alert.service';
@@ -25,6 +25,8 @@ export class IdeaComponent implements OnInit {
   is_alive: boolean | undefined;
   is_root: boolean | undefined;
   
+  timer_subscription: Subscription;
+
   content_expanded: boolean;
   shortened_content: string;
 
@@ -46,7 +48,9 @@ export class IdeaComponent implements OnInit {
       }
     });
     this.is_alive = true;
-    timer(0,1000).subscribe(() => {
+
+    this.timer_subscription = this.ideaService.updateTimerObservable.subscribe(() => {
+      console.log("Timer");
       this.is_alive = this.idea?.is_alive();
       this.is_root = this.idea?.is_root();
       this.resource_remaining = this.idea?.resource_remaining();
@@ -68,6 +72,10 @@ export class IdeaComponent implements OnInit {
         this.author = author;
       }
     }
+  }
+
+  ngOnDestroy() {
+    this.timer_subscription.unsubscribe();
   }
   
   ngOnChanges(changes: SimpleChanges) {

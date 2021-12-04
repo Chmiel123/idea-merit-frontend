@@ -21,23 +21,22 @@ export class RichTextComponent implements OnInit {
   ngOnChanges(changes: SimpleChanges) {
     let newText = changes.text.currentValue as String;
     if (newText) {
-      this.paragraphs = this.removeConsecutiveDuplicates(newText, "\n").split("\n");
-      let n = this.paragraphs.length;
+      let paragraphs = this.removeConsecutiveDuplicates(newText, "\n").split("\n");
+      let n = paragraphs.length;
       this.spans = [];
       for (let i = 0; i < n; i++) {
-        let found = this.paragraphs[i].match(RichTextComponent.url_regex);
-        console.log(found);
+        let found = paragraphs[i].match(RichTextComponent.url_regex);
         this.spans[i] = [];
         if (!found) {
-          this.spans[i].push(new Span(this.paragraphs[i], "", "text"));
+          this.spans[i].push(new Span(paragraphs[i], "", "text"));
         }
         if (found) {
           let m = found.length;
           let next = 0;
           for (let j = 0; j < m; j++) {
             let match = found[j];
-            let indexOf = this.paragraphs[i].indexOf(match)
-            this.spans[i].push(new Span(this.paragraphs[i].substr(next, indexOf - next), "", "text"));
+            let indexOf = paragraphs[i].indexOf(match)
+            this.spans[i].push(new Span(paragraphs[i].substr(next, indexOf - next), "", "text"));
             let link = ""
             if (!match.startsWith("http://") && !match.startsWith("https://")) {
               link = "http://"+match;
@@ -45,10 +44,9 @@ export class RichTextComponent implements OnInit {
             this.spans[i].push(new Span(match, link, "link"));
             next = indexOf + match.length;
           }
-          this.spans[i].push(new Span(this.paragraphs[i].substr(next), "", "text"));
+          this.spans[i].push(new Span(paragraphs[i].substr(next), "", "text"));
         }
       }
-      console.log(this.spans);
     }
   }
 
