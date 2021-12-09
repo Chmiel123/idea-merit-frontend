@@ -33,8 +33,8 @@ export class RichTextComponent implements OnInit {
         for (let j = 0; j < m; j++) {
           let match = found[j];
           let indexOf = newText.indexOf(match)
-          this.spans.push(new Span(newText.substr(next, indexOf - next), "", "text"));
-          let link = ""
+          this.spans.push(new Span(newText.substring(next, indexOf), "", "text"));
+          let link = match;
           if (!match.startsWith("http://") && !match.startsWith("https://")) {
             link = "https://"+match;
           }

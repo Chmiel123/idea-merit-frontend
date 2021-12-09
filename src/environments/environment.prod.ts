@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://localhost:5000',
+  apiUrl: 'https://www.backend.ideacy.pl',
   ui: {
-    idea_content_collapsed_words: 10
+    idea_content_collapsed_words: 20
   }
 };
